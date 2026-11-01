@@ -1,0 +1,18 @@
+def calculate_eat(h, tlb_time, mem_time):
+    return h * (tlb_time + mem_time) + (1 - h) * (tlb_time + 2 * mem_time)
+
+tlb_time = 10   # ns
+mem_time = 80   # ns
+
+results = {}
+for h in (0.90, 0.75):
+    print(f"TLB hit ratio (h)  : {h}")
+    print(f"TLB lookup time    : {tlb_time} ns")
+    print(f"Memory access time : {mem_time} ns")
+    eat = calculate_eat(h, tlb_time, mem_time)
+    print(f"EAT                : {eat:.2f} ns\n")
+    results[h] = eat
+
+print(f"EAT (h=0.90) = {results[0.90]:.2f} ns")
+print(f"EAT (h=0.75) = {results[0.75]:.2f} ns")
+print(f"Difference   = {results[0.75] - results[0.90]:.2f} ns slower with lower hit ratio")
