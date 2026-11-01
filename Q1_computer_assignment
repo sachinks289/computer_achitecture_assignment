@@ -1,0 +1,28 @@
+def lru_simulation(sequence, capacity=3):
+    cache = []  # least recently used at index 0
+    hits = misses = 0
+
+    for block in sequence:
+        removed = None
+        if block in cache:
+            status = "HIT"
+            hits += 1
+            cache.remove(block)
+            cache.append(block)
+        else:
+            status = "MISS"
+            misses += 1
+            if len(cache) == capacity:
+                removed = cache.pop(0)
+            cache.append(block)
+
+        print(f"Access {block}: {status:4} | Cache: {cache} | "
+              f"Removed: {removed if removed is not None else '-'}")
+
+    total = hits + misses
+    print("Total Hits   :", hits)
+    print("Total Misses :", misses)
+    print(f"Hit Ratio    : {hits}/{total} = {hits / total:.3f}")
+
+
+lru_simulation([4, 2, 1, 4, 3, 2, 5, 4], capacity=3)
